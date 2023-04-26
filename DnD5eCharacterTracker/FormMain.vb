@@ -43,6 +43,15 @@
             AddHandler Me.MenuStripMainItemCharacterItemDuplicate.Click, AddressOf DuplicateCharacter
             AddHandler Me.MenuStripMainItemCharacterItemMove.Click, AddressOf OpenMoveCharacterWindow
 
+
+
+
+
+
+            AddHandler Me.MenuStripMainItemHelpItemGettingStarted.Click, AddressOf GotoGettingStarted
+            AddHandler Me.MenuStripMainItemHelpItemWiki.Click, AddressOf GotoWiki
+            AddHandler Me.MenuStripMainItemHelpItemReleaseNotes.Click, AddressOf GotoReleaseNotes
+            AddHandler Me.MenuStripMainItemHelpItemReportBug.Click, AddressOf GotoReportBug
             AddHandler Me.MenuStripMainItemHelpItemAbout.Click, AddressOf OpenAboutWindow
 
 
@@ -590,6 +599,42 @@
             If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
             LoadCampaign()
         End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub GotoGettingStarted()
+
+        System.Diagnostics.Process.Start("https://github.com/raineym/DnD5eCharacterTracker/wiki/Getting-Started")
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub GotoReleaseNotes()
+
+        System.Diagnostics.Process.Start("https://github.com/raineym/DnD5eCharacterTracker/wiki/Release-Notes")
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub GotoReportBug()
+
+        System.Diagnostics.Process.Start("https://github.com/raineym/DnD5eCharacterTracker/issues")
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub GotoWiki()
+
+        System.Diagnostics.Process.Start("https://github.com/raineym/DnD5eCharacterTracker/wiki")
 
     End Sub
 
