@@ -15,7 +15,7 @@
 
     '[ Can either construct PROGRAMBUILD here -OR- contruct using SetProgramBuild function in ModuleApplication > Miscellaneous region. ]
     '[ If function is used, other PROGRAMBUILD constants below must be filled in. Function returns build string or 0.0.0 as default. ]
-    Public Const PROGRAMBUILD As System.String = "1.0.0"
+    Public Const PROGRAMBUILD As System.String = "1.1.0"
     '[ The following CONST are for Sematic Versioning. See https://en.wikipedia.org/wiki/Software_versioning for info. ]
     Public Const PROGRAMBUILDMAJORVERSION As System.String = "1" '[ New version or software-breaking changes. ]
     Public Const PROGRAMBUILDMINORVERSION As System.String = "0" '[ New non-breaking features or changes. ]
