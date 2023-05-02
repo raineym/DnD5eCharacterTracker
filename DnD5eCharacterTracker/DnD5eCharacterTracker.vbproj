@@ -255,7 +255,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UserControlCharacters.Designer.vb">
+    <Compile Include="UserControlCharacters.designer.vb">
       <DependentUpon>UserControlCharacters.vb</DependentUpon>
     </Compile>
     <Compile Include="UserControlCharacters.vb">

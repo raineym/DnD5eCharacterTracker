@@ -26,6 +26,8 @@
                 Me.Visible = False
             End With
 
+            UpdateDatabase()
+
             '[ Make controls look pretty. ]
             FormatControls()
 
@@ -42,20 +44,11 @@
             AddHandler Me.MenuStripMainItemCharacterItemDelete.Click, AddressOf DeleteCharacter
             AddHandler Me.MenuStripMainItemCharacterItemDuplicate.Click, AddressOf DuplicateCharacter
             AddHandler Me.MenuStripMainItemCharacterItemMove.Click, AddressOf OpenMoveCharacterWindow
-
-
-
-
-
-
             AddHandler Me.MenuStripMainItemHelpItemGettingStarted.Click, AddressOf GotoGettingStarted
             AddHandler Me.MenuStripMainItemHelpItemWiki.Click, AddressOf GotoWiki
             AddHandler Me.MenuStripMainItemHelpItemReleaseNotes.Click, AddressOf GotoReleaseNotes
             AddHandler Me.MenuStripMainItemHelpItemReportBug.Click, AddressOf GotoReportBug
             AddHandler Me.MenuStripMainItemHelpItemAbout.Click, AddressOf OpenAboutWindow
-
-
-
             AddHandler Me.ContextMenuStripMainItemAdd.Click, AddressOf AddCharacter
             AddHandler Me.ContextMenuStripMainItemDelete.Click, AddressOf DeleteCharacter
             AddHandler Me.ContextMenuStripMainItemDuplicate.Click, AddressOf DuplicateCharacter
@@ -1042,6 +1035,94 @@
             End If
         Catch ex As System.Exception
             ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
+        End Try
+
+    End Sub
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub UpdateDatabase()
+
+        Dim _SQLiteConnect As System.Data.SQLite.SQLiteConnection = SQLiteConnection()
+        Dim _SQLiteCommand As System.Data.SQLite.SQLiteCommand = Nothing
+        Dim _SQLiteReader As System.Data.SQLite.SQLiteDataReader = Nothing
+        Dim _SQLiteAdapter As System.Data.SQLite.SQLiteDataAdapter = Nothing
+        Dim _QueryString As System.Text.StringBuilder = New System.Text.StringBuilder()
+        Dim _Version110 As System.Int32 = 0
+
+        Try
+            If _SQLiteConnect IsNot Nothing Then
+                If _SQLiteConnect.State = System.Data.ConnectionState.Open Then
+                    Using _SQLiteConnect
+                        '[ Check For Version 1.1.0 of the database. ]
+                        With _QueryString
+                            .Clear()
+                            .Append("SELECT count(*) AS VERSION110 FROM sqlite_master WHERE type='table' AND name='metadata'")
+                        End With
+                        _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                        With _SQLiteCommand
+                            '[ Execute Single-Value SELECT query. ]
+                            _Version110 = .ExecuteScalar()
+                        End With
+                        '[ Update database to Version 1.1.0. ]
+                        If Convert.ToBoolean(_Version110) = False Then
+                            With _QueryString
+                                .Clear()
+                                .Append("ALTER TABLE characters ADD COLUMN deathsavesuccess INTEGER NOT NULL DEFAULT 0")
+                            End With
+                            _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                            With _SQLiteCommand
+                                '[ Execute INSERT or UPDATE query. ]
+                                .ExecuteNonQuery()
+                            End With
+                            With _QueryString
+                                .Clear()
+                                .Append("ALTER TABLE characters ADD COLUMN deathsavefailure INTEGER NOT NULL DEFAULT 0")
+                            End With
+                            _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                            With _SQLiteCommand
+                                '[ Execute INSERT or UPDATE query. ]
+                                .ExecuteNonQuery()
+                            End With
+                            With _QueryString
+                                .Clear()
+                                .Append("CREATE TABLE metadata (version TEXT)")
+                            End With
+                            _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                            With _SQLiteCommand
+                                '[ Execute INSERT or UPDATE query. ]
+                                .ExecuteNonQuery()
+                            End With
+                            With _QueryString
+                                .Clear()
+                                .Append("UPDATE metadata SET version=@version")
+                            End With
+                            _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                            With _SQLiteCommand
+                                '[ Add Parameter Values. ]
+                                .Parameters.AddWithValue("@version", PROGRAMBUILD)
+                                '[ Execute INSERT or UPDATE query. ]
+                                .ExecuteNonQuery()
+                                '[ Clear Parameter Values. ]
+                                If .Parameters.Count > 0 Then .Parameters.Clear()
+                            End With
+                        End If
+                    End Using
+                End If
+            End If
+        Catch ex As Exception
+            ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
+        Finally
+            If _QueryString IsNot Nothing Then
+                _QueryString.Clear()
+                _QueryString = Nothing
+            End If
+            If _SQLiteAdapter IsNot Nothing Then _SQLiteAdapter.Dispose()
+            If _SQLiteReader IsNot Nothing Then _SQLiteReader.Dispose()
+            If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
+            If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
         End Try
 
     End Sub

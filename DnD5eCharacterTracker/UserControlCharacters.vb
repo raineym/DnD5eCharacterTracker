@@ -1,4 +1,6 @@
-﻿Public Class UserControlCharacterProperties
+﻿Imports System.Runtime.Remoting.Messaging
+
+Public Class UserControlCharacterProperties
 
 #Region " Constants "
 
@@ -64,8 +66,17 @@
             AddHandler Me.NumericUpDownExtCharactersSpeedClimb.ValueChanged, AddressOf SaveCharacterSpeedClimb
             AddHandler Me.NumericUpDownExtCharactersSpeedFly.ValueChanged, AddressOf SaveCharacterSpeedFly
             AddHandler Me.NumericUpDownExtCharactersSpeedSwim.ValueChanged, AddressOf SaveCharacterSpeedSwim
+            AddHandler Me.PictureBoxCharactersDeathSaves.Click, AddressOf ShowDeathSavesMenu
             AddHandler Me.ContextMenuStripCharactersPortraitItemChange.Click, AddressOf ChangePortrait
             AddHandler Me.ContextMenuStripCharactersPortraitItemReset.Click, AddressOf RemovePortrait
+            AddHandler Me.ContextMenuStripCharactersDeathSavesItemResetAll.Click, AddressOf ResetDeathSaves
+            AddHandler Me.ContextMenuStripCharactersDeathSavesItemResetFailures.Click, AddressOf ResetDeathSavesFailures
+            AddHandler Me.ContextMenuStripCharactersDeathSavesItemResetSuccesses.Click, AddressOf ResetDeathSavesSuccesses
+            AddHandler Me.ContextMenuStripCharactersDeathSavesItemIncreaseSuccesses.Click, AddressOf IncreaseDeathSavesSuccesses
+            AddHandler Me.ContextMenuStripCharactersDeathSavesItemDecreaseSuccesses.Click, AddressOf DecreaseDeathSavesSuccesses
+            AddHandler Me.ContextMenuStripCharactersDeathSavesItemIncreaseFailures.Click, AddressOf IncreaseDeathSavesFailures
+            AddHandler Me.ContextMenuStripCharactersDeathSavesItemDecreaseFailures.Click, AddressOf DecreaseDeathSavesFailures
+
 
         Catch ex As Exception
             'ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
@@ -91,9 +102,77 @@
             .BackColor = System.Drawing.Color.FromArgb(255, 255, 248)
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
             .ForeColor = System.Drawing.Color.FromArgb(33, 33, 33)
-            .MaximumSize = New System.Drawing.Size(694, 620)
-            .MinimumSize = New System.Drawing.Size(694, 620)
-            .Size = New System.Drawing.Size(694, 620)
+            .MaximumSize = New System.Drawing.Size(694, 650)
+            .MinimumSize = New System.Drawing.Size(694, 650)
+            .Size = New System.Drawing.Size(694, 650)
+        End With
+
+        '[ GroupBoxCharactersDeathSaves ]
+        With Me.GroupBoxCharactersDeathSaves
+            .Text = System.String.Format(" {0}      ", "Death Saves")
+            .BackColor = System.Drawing.Color.Transparent
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 12.0, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+        End With
+
+        '[ CheckBoxCharactersDeathSavesSuccesses01 ]
+        With Me.CheckBoxCharactersDeathSavesSuccesses01
+            .Text = System.String.Empty
+            .AutoCheck = False
+            .BackColor = Me.BackColor
+            .CheckAlign = System.Drawing.ContentAlignment.MiddleCenter
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+        End With
+
+        '[ CheckBoxCharactersDeathSavesSuccesses02 ]
+        With Me.CheckBoxCharactersDeathSavesSuccesses02
+            .Text = System.String.Empty
+            .AutoCheck = False
+            .BackColor = Me.BackColor
+            .CheckAlign = System.Drawing.ContentAlignment.MiddleCenter
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+        End With
+
+        '[ CheckBoxCharactersDeathSavesSuccesses03 ]
+        With Me.CheckBoxCharactersDeathSavesSuccesses03
+            .Text = System.String.Empty
+            .AutoCheck = False
+            .BackColor = Me.BackColor
+            .CheckAlign = System.Drawing.ContentAlignment.MiddleCenter
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+        End With
+
+        '[ CheckBoxCharactersDeathSavesFailures01 ]
+        With Me.CheckBoxCharactersDeathSavesFailures01
+            .Text = System.String.Empty
+            .AutoCheck = False
+            .BackColor = Me.BackColor
+            .CheckAlign = System.Drawing.ContentAlignment.MiddleCenter
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+        End With
+
+        '[ CheckBoxCharactersDeathSavesFailures02 ]
+        With Me.CheckBoxCharactersDeathSavesFailures02
+            .Text = System.String.Empty
+            .AutoCheck = False
+            .BackColor = Me.BackColor
+            .CheckAlign = System.Drawing.ContentAlignment.MiddleCenter
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+        End With
+
+        '[ CheckBoxCharactersDeathSavesFailures03 ]
+        With Me.CheckBoxCharactersDeathSavesFailures03
+            .Text = System.String.Empty
+            .AutoCheck = False
+            .BackColor = Me.BackColor
+            .CheckAlign = System.Drawing.ContentAlignment.MiddleCenter
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
         End With
 
         '[ LabelCharactersName ]
@@ -197,7 +276,7 @@
 
         '[ LabelCharactersJitPointsCurrent ]
         With Me.LabelCharactersHitPointsCurrent
-            .Text = System.String.Format("{0}", "Initiative")
+            .Text = System.String.Format("{0}", "Current")
             .BackColor = Me.BackColor
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 6.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
             .ForeColor = Me.ForeColor
@@ -210,6 +289,14 @@
             .BackColor = Me.BackColor
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
             .ForeColor = Me.ForeColor
+            .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        End With
+
+        '[ LabelCharactersStrengthModifier ]
+        With Me.LabelCharactersStrengthModifier
+            .BackColor = Me.BackColor
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 15.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
             .TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         End With
 
@@ -218,6 +305,14 @@
             .Text = System.String.Format("{0}", "Dexterity")
             .BackColor = Me.BackColor
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        End With
+
+        '[ LabelCharactersDexterityModifier ]
+        With Me.LabelCharactersDexterityModifier
+            .BackColor = Me.BackColor
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 15.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
             .ForeColor = Me.ForeColor
             .TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         End With
@@ -228,6 +323,14 @@
             .BackColor = Me.BackColor
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
             .ForeColor = Me.ForeColor
+            .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        End With
+
+        '[ LabelCharactersConstitutionModifier ]
+        With Me.LabelCharactersConstitutionModifier
+            .BackColor = Me.BackColor
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 15.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
             .TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         End With
 
@@ -236,6 +339,14 @@
             .Text = System.String.Format("{0}", "Intelligence")
             .BackColor = Me.BackColor
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        End With
+
+        '[ LabelCharactersIntelligenceModifier ]
+        With Me.LabelCharactersIntelligenceModifier
+            .BackColor = Me.BackColor
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 15.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
             .ForeColor = Me.ForeColor
             .TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         End With
@@ -246,6 +357,14 @@
             .BackColor = Me.BackColor
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
             .ForeColor = Me.ForeColor
+            .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        End With
+
+        '[ LabelCharactersWisdomModifier ]
+        With Me.LabelCharactersWisdomModifier
+            .BackColor = Me.BackColor
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 15.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
             .TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         End With
 
@@ -254,6 +373,14 @@
             .Text = System.String.Format("{0}", "Charisma")
             .BackColor = Me.BackColor
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        End With
+
+        '[ LabelCharactersCharismaModifier ]
+        With Me.LabelCharactersCharismaModifier
+            .BackColor = Me.BackColor
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 15.75, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
             .ForeColor = Me.ForeColor
             .TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         End With
@@ -361,6 +488,24 @@
         With Me.LabelCharactersUUID
             .BackColor = Me.BackColor
             .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 8.25, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        End With
+
+        '[ LabelCharactersDeathSavesSuccesses ]
+        With Me.LabelCharactersDeathSavesSuccesses
+            .Text = System.String.Format("{0}", "Successes")
+            .BackColor = Me.BackColor
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        End With
+
+        '[ LabelCharactersDeathSavesFailures ]
+        With Me.LabelCharactersDeathSavesFailures
+            .Text = System.String.Format("{0}", "Failures")
+            .BackColor = Me.BackColor
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
             .ForeColor = Me.ForeColor
             .TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         End With
@@ -641,6 +786,137 @@
             .SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         End With
 
+        '[ PictureBoxCharactersDeathSaves ]
+        With Me.PictureBoxCharactersDeathSaves
+            .BackColor = System.Drawing.Color.Transparent
+            .BorderStyle = System.Windows.Forms.BorderStyle.None
+            .ContextMenuStrip = ContextMenuStripCharactersDeathSaves
+            .Image = Base64ToImage(My.Resources.ArrowDown)
+            .SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal
+        End With
+
+        '[ ContextMenuStripCharactersPortrait ]
+        With Me.ContextMenuStripCharactersPortrait
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+        End With
+
+        '[ ContextMenuStripCharactersPortraitItemChange ]
+        With Me.ContextMenuStripCharactersPortraitItemChange
+            .Text = System.String.Format("{0}", "Change Picture")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersPortraitItemReset ]
+        With Me.ContextMenuStripCharactersPortraitItemReset
+            .Text = System.String.Format("{0}", "Reset Picture")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSaves]
+        With Me.ContextMenuStripCharactersDeathSaves
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemReset ]
+        With Me.ContextMenuStripCharactersDeathSavesItemReset
+            .Text = System.String.Format("{0}", "Reset")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemResetAll ]
+        With Me.ContextMenuStripCharactersDeathSavesItemResetAll
+            .Text = System.String.Format("{0}", "All")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemResetSuccesses ]
+        With Me.ContextMenuStripCharactersDeathSavesItemResetSuccesses
+            .Text = System.String.Format("{0}", "Successes")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemResetFailures ]
+        With Me.ContextMenuStripCharactersDeathSavesItemResetFailures
+            .Text = System.String.Format("{0}", "Failures")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemIncrease ]
+        With Me.ContextMenuStripCharactersDeathSavesItemIncrease
+            .Text = System.String.Format("{0}", "Increase")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemIncreaseSuccesses ]
+        With Me.ContextMenuStripCharactersDeathSavesItemIncreaseSuccesses
+            .Text = System.String.Format("{0}", "Successes")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemIncreaseFailures ]
+        With Me.ContextMenuStripCharactersDeathSavesItemIncreaseFailures
+            .Text = System.String.Format("{0}", "Failures")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemDecrease ]
+        With Me.ContextMenuStripCharactersDeathSavesItemDecrease
+            .Text = System.String.Format("{0}", "Decrease")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemDecreaseSuccesses ]
+        With Me.ContextMenuStripCharactersDeathSavesItemDecreaseSuccesses
+            .Text = System.String.Format("{0}", "Successes")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
+        '[ ContextMenuStripCharactersDeathSavesItemDecreaseFailures ]
+        With Me.ContextMenuStripCharactersDeathSavesItemDecreaseFailures
+            .Text = System.String.Format("{0}", "Failures")
+            .BackColor = System.Drawing.SystemColors.Control
+            .Font = New System.Drawing.Font(SetFontFamily("Segoe UI", "Microsoft Sans Serif"), 9.75, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+            .ForeColor = Me.ForeColor
+            '.Image = System.Drawing.Image.FromFile(System.String.Format("{0}\Images\.png", APPDEFAULTRESOURCEPATH))
+        End With
+
     End Sub
 
 #End Region
@@ -703,7 +979,7 @@
                     .SupportMultiDottedExtensions = True
                     .Title = "Choose Character Portrait or Insignia"
                     If .ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                        _NewPicture = ImageToBase64(ResizeImage(CType(New System.Drawing.Bitmap(.FileName), System.Drawing.Image), New Size(322, 322), True))
+                        _NewPicture = ImageToBase64(ResizeImage(CType(New System.Drawing.Bitmap(.FileName), System.Drawing.Image), New Size(Me.PictureBoxCharactersPortrait.Width, Me.PictureBoxCharactersPortrait.Height), True))
                         If _SQLiteConnect IsNot Nothing Then
                             If _SQLiteConnect.State = System.Data.ConnectionState.Open Then
                                 Using _SQLiteConnect
@@ -737,6 +1013,347 @@
             End If
             If _SQLiteAdapter IsNot Nothing Then _SQLiteAdapter.Dispose()
             If _SQLiteReader IsNot Nothing Then _SQLiteReader.Dispose()
+            If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
+            If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub DecreaseDeathSavesFailures()
+
+        Dim _SQLiteConnect As System.Data.SQLite.SQLiteConnection = SQLiteConnection()
+        Dim _SQLiteCommand As System.Data.SQLite.SQLiteCommand = Nothing
+        Dim _QueryString As System.Text.StringBuilder = New System.Text.StringBuilder()
+        Dim _Failures As System.Int32 = 0
+
+        Try
+            If _SQLiteConnect IsNot Nothing Then
+                If _SQLiteConnect.State = System.Data.ConnectionState.Open Then
+                    Using _SQLiteConnect
+                        With _QueryString
+                            .Clear()
+                            .Append("SELECT deathsavefailure FROM characters WHERE id=@id")
+                        End With
+                        _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                        With _SQLiteCommand
+                            '[ Add Parameter Values. ]
+                            .Parameters.AddWithValue("@id", _Campaign("character"))
+                            '[ Execute Single-Value SELECT query. ]
+                            _Failures = .ExecuteScalar()
+                            '[ Clear Parameter Values. ]
+                            If .Parameters.Count > 0 Then .Parameters.Clear()
+                        End With
+                        If _Failures > 0 Then
+                            With _QueryString
+                                .Clear()
+                                .Append("UPDATE characters SET deathsavefailure = deathsavefailure - 1 WHERE id=@id")
+                            End With
+                            _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                            With _SQLiteCommand
+                                '[ Add Parameter Values. ]
+                                .Parameters.AddWithValue("@id", _Campaign("character"))
+                                '[ Execute INSERT or UPDATE query. ]
+                                .ExecuteNonQuery()
+                                '[ Clear Parameter Values. ]
+                                If .Parameters.Count > 0 Then .Parameters.Clear()
+                            End With
+                            Select Case (_Failures - 1)
+                                Case 0
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                    Exit Select
+                                Case 1
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                    Exit Select
+                                Case 2
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                    Exit Select
+                                Case 3
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = True
+                                    Exit Select
+                                Case Else
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                    Exit Select
+                            End Select
+                        End If
+                    End Using
+                End If
+            End If
+        Catch ex As Exception
+            ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
+        Finally
+            If _QueryString IsNot Nothing Then
+                _QueryString.Clear()
+                _QueryString = Nothing
+            End If
+            If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
+            If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub DecreaseDeathSavesSuccesses()
+
+        Dim _SQLiteConnect As System.Data.SQLite.SQLiteConnection = SQLiteConnection()
+        Dim _SQLiteCommand As System.Data.SQLite.SQLiteCommand = Nothing
+        Dim _QueryString As System.Text.StringBuilder = New System.Text.StringBuilder()
+        Dim _Successes As System.Int32 = 0
+
+        Try
+            If _SQLiteConnect IsNot Nothing Then
+                If _SQLiteConnect.State = System.Data.ConnectionState.Open Then
+                    Using _SQLiteConnect
+                        With _QueryString
+                            .Clear()
+                            .Append("SELECT deathsavesuccess FROM characters WHERE id=@id")
+                        End With
+                        _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                        With _SQLiteCommand
+                            '[ Add Parameter Values. ]
+                            .Parameters.AddWithValue("@id", _Campaign("character"))
+                            '[ Execute Single-Value SELECT query. ]
+                            _Successes = .ExecuteScalar()
+                            '[ Clear Parameter Values. ]
+                            If .Parameters.Count > 0 Then .Parameters.Clear()
+                        End With
+                        If _Successes > 0 Then
+                            With _QueryString
+                                .Clear()
+                                .Append("UPDATE characters SET deathsavesuccess = deathsavesuccess - 1 WHERE id=@id")
+                            End With
+                            _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                            With _SQLiteCommand
+                                '[ Add Parameter Values. ]
+                                .Parameters.AddWithValue("@id", _Campaign("character"))
+                                '[ Execute INSERT or UPDATE query. ]
+                                .ExecuteNonQuery()
+                                '[ Clear Parameter Values. ]
+                                If .Parameters.Count > 0 Then .Parameters.Clear()
+                            End With
+                            Select Case (_Successes - 1)
+                                Case 0
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                    Exit Select
+                                Case 1
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                    Exit Select
+                                Case 2
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                    Exit Select
+                                Case 3
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = True
+                                    Exit Select
+                                Case Else
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                    Exit Select
+                            End Select
+                        End If
+                    End Using
+                End If
+            End If
+        Catch ex As Exception
+            ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
+        Finally
+            If _QueryString IsNot Nothing Then
+                _QueryString.Clear()
+                _QueryString = Nothing
+            End If
+            If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
+            If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub IncreaseDeathSavesFailures()
+
+        Dim _SQLiteConnect As System.Data.SQLite.SQLiteConnection = SQLiteConnection()
+        Dim _SQLiteCommand As System.Data.SQLite.SQLiteCommand = Nothing
+        Dim _QueryString As System.Text.StringBuilder = New System.Text.StringBuilder()
+        Dim _Failures As System.Int32 = 0
+
+        Try
+            If _SQLiteConnect IsNot Nothing Then
+                If _SQLiteConnect.State = System.Data.ConnectionState.Open Then
+                    Using _SQLiteConnect
+                        With _QueryString
+                            .Clear()
+                            .Append("SELECT deathsavefailure FROM characters WHERE id=@id")
+                        End With
+                        _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                        With _SQLiteCommand
+                            '[ Add Parameter Values. ]
+                            .Parameters.AddWithValue("@id", _Campaign("character"))
+                            '[ Execute Single-Value SELECT query. ]
+                            _Failures = .ExecuteScalar()
+                            '[ Clear Parameter Values. ]
+                            If .Parameters.Count > 0 Then .Parameters.Clear()
+                        End With
+                        If _Failures < 3 Then
+                            With _QueryString
+                                .Clear()
+                                .Append("UPDATE characters SET deathsavefailure = deathsavefailure + 1 WHERE id=@id")
+                            End With
+                            _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                            With _SQLiteCommand
+                                '[ Add Parameter Values. ]
+                                .Parameters.AddWithValue("@id", _Campaign("character"))
+                                '[ Execute INSERT or UPDATE query. ]
+                                .ExecuteNonQuery()
+                                '[ Clear Parameter Values. ]
+                                If .Parameters.Count > 0 Then .Parameters.Clear()
+                            End With
+                            Select Case (_Failures + 1)
+                                Case 0
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                    Exit Select
+                                Case 1
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                    Exit Select
+                                Case 2
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                    Exit Select
+                                Case 3
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = True
+                                    Exit Select
+                                Case Else
+                                    Me.CheckBoxCharactersDeathSavesFailures01.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                    Exit Select
+                            End Select
+                        End If
+                    End Using
+                End If
+            End If
+        Catch ex As Exception
+            ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
+        Finally
+            If _QueryString IsNot Nothing Then
+                _QueryString.Clear()
+                _QueryString = Nothing
+            End If
+            If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
+            If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub IncreaseDeathSavesSuccesses()
+
+        Dim _SQLiteConnect As System.Data.SQLite.SQLiteConnection = SQLiteConnection()
+        Dim _SQLiteCommand As System.Data.SQLite.SQLiteCommand = Nothing
+        Dim _QueryString As System.Text.StringBuilder = New System.Text.StringBuilder()
+        Dim _Successes As System.Int32 = 0
+
+        Try
+            If _SQLiteConnect IsNot Nothing Then
+                If _SQLiteConnect.State = System.Data.ConnectionState.Open Then
+                    Using _SQLiteConnect
+                        With _QueryString
+                            .Clear()
+                            .Append("SELECT deathsavesuccess FROM characters WHERE id=@id")
+                        End With
+                        _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                        With _SQLiteCommand
+                            '[ Add Parameter Values. ]
+                            .Parameters.AddWithValue("@id", _Campaign("character"))
+                            '[ Execute Single-Value SELECT query. ]
+                            _Successes = .ExecuteScalar()
+                            '[ Clear Parameter Values. ]
+                            If .Parameters.Count > 0 Then .Parameters.Clear()
+                        End With
+                        If _Successes < 3 Then
+                            With _QueryString
+                                .Clear()
+                                .Append("UPDATE characters SET deathsavesuccess = deathsavesuccess + 1 WHERE id=@id")
+                            End With
+                            _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                            With _SQLiteCommand
+                                '[ Add Parameter Values. ]
+                                .Parameters.AddWithValue("@id", _Campaign("character"))
+                                '[ Execute INSERT or UPDATE query. ]
+                                .ExecuteNonQuery()
+                                '[ Clear Parameter Values. ]
+                                If .Parameters.Count > 0 Then .Parameters.Clear()
+                            End With
+
+                            Select Case (_Successes + 1)
+                                Case 0
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                    Exit Select
+                                Case 1
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                    Exit Select
+                                Case 2
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                    Exit Select
+                                Case 3
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = True
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = True
+                                    Exit Select
+                                Case Else
+                                    Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                    Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                    Exit Select
+                            End Select
+                        End If
+                    End Using
+                End If
+            End If
+        Catch ex As Exception
+            ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
+        Finally
+            If _QueryString IsNot Nothing Then
+                _QueryString.Clear()
+                _QueryString = Nothing
+            End If
             If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
             If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
         End Try
@@ -801,6 +1418,60 @@
                                         Me.NumericUpDownExtCharactersSpeedFly.Value = System.Convert.ToInt32(.Item("speedfly"))
                                         Me.NumericUpDownExtCharactersSpeedSwim.Value = System.Convert.ToInt32(.Item("speedswim"))
                                         Me.TextBoxExtCharactersLanguages.Text = .Item("languages").ToString
+                                        Select Case Convert.ToInt32(.Item("deathsavesuccess"))
+                                            Case 0
+                                                Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                                Exit Select
+                                            Case 1
+                                                Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                                Exit Select
+                                            Case 2
+                                                Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                                Exit Select
+                                            Case 3
+                                                Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = True
+                                                Exit Select
+                                            Case Else
+                                                Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+                                                Exit Select
+                                        End Select
+                                        Select Case Convert.ToInt32(.Item("deathsavefailure"))
+                                            Case 0
+                                                Me.CheckBoxCharactersDeathSavesFailures01.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                                Exit Select
+                                            Case 1
+                                                Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                                Exit Select
+                                            Case 2
+                                                Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesFailures02.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                                Exit Select
+                                            Case 3
+                                                Me.CheckBoxCharactersDeathSavesFailures01.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesFailures02.Checked = True
+                                                Me.CheckBoxCharactersDeathSavesFailures03.Checked = True
+                                                Exit Select
+                                            Case Else
+                                                Me.CheckBoxCharactersDeathSavesFailures01.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+                                                Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+                                                Exit Select
+                                        End Select
                                         If .Item("portrait").ToString.Length > 0 Then
                                             Me.PictureBoxCharactersPortrait.Image = Base64ToImage(.Item("portrait").ToString)
                                         End If
@@ -873,6 +1544,113 @@
         End Try
 
     End Sub
+
+
+
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub ResetDeathSaves()
+
+        ResetDeathSavesSuccesses()
+        ResetDeathSavesFailures()
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub ResetDeathSavesFailures()
+
+        Dim _SQLiteConnect As System.Data.SQLite.SQLiteConnection = SQLiteConnection()
+        Dim _SQLiteCommand As System.Data.SQLite.SQLiteCommand = Nothing
+        Dim _QueryString As System.Text.StringBuilder = New System.Text.StringBuilder()
+
+        Try
+            Me.CheckBoxCharactersDeathSavesFailures01.Checked = False
+            Me.CheckBoxCharactersDeathSavesFailures02.Checked = False
+            Me.CheckBoxCharactersDeathSavesFailures03.Checked = False
+            If _SQLiteConnect IsNot Nothing Then
+                If _SQLiteConnect.State = System.Data.ConnectionState.Open Then
+                    Using _SQLiteConnect
+                        With _QueryString
+                            .Clear()
+                            .Append("UPDATE characters SET deathsavefailure=0 WHERE id=@id")
+                        End With
+                        _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                        With _SQLiteCommand
+                            '[ Add Parameter Values. ]
+                            .Parameters.AddWithValue("@id", _Campaign("character"))
+                            '[ Execute INSERT or UPDATE query. ]
+                            .ExecuteNonQuery()
+                            '[ Clear Parameter Values. ]
+                            If .Parameters.Count > 0 Then .Parameters.Clear()
+                        End With
+                    End Using
+                End If
+            End If
+        Catch ex As Exception
+            ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
+        Finally
+            If _QueryString IsNot Nothing Then
+                _QueryString.Clear()
+                _QueryString = Nothing
+            End If
+            If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
+            If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub ResetDeathSavesSuccesses()
+
+        Dim _SQLiteConnect As System.Data.SQLite.SQLiteConnection = SQLiteConnection()
+        Dim _SQLiteCommand As System.Data.SQLite.SQLiteCommand = Nothing
+        Dim _QueryString As System.Text.StringBuilder = New System.Text.StringBuilder()
+
+        Try
+            Me.CheckBoxCharactersDeathSavesSuccesses01.Checked = False
+            Me.CheckBoxCharactersDeathSavesSuccesses02.Checked = False
+            Me.CheckBoxCharactersDeathSavesSuccesses03.Checked = False
+            If _SQLiteConnect IsNot Nothing Then
+                If _SQLiteConnect.State = System.Data.ConnectionState.Open Then
+                    Using _SQLiteConnect
+                        With _QueryString
+                            .Clear()
+                            .Append("UPDATE characters SET deathsavesuccess=0 WHERE id=@id")
+                        End With
+                        _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
+                        With _SQLiteCommand
+                            '[ Add Parameter Values. ]
+                            .Parameters.AddWithValue("@id", _Campaign("character"))
+                            '[ Execute INSERT or UPDATE query. ]
+                            .ExecuteNonQuery()
+                            '[ Clear Parameter Values. ]
+                            If .Parameters.Count > 0 Then .Parameters.Clear()
+                        End With
+                    End Using
+                End If
+            End If
+        Catch ex As Exception
+            ShowMessage("Error", ex.Message, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name.ToString, System.Reflection.MethodInfo.GetCurrentMethod().Name.ToString)
+        Finally
+            If _QueryString IsNot Nothing Then
+                _QueryString.Clear()
+                _QueryString = Nothing
+            End If
+            If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
+            If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
+        End Try
+
+    End Sub
+
+
 
     ''' <summary>
     ''' 
@@ -1394,7 +2172,7 @@
                             _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
                             With _SQLiteCommand
                                 '[ Add Parameter Values. ]
-                                .Parameters.AddWithValue("@", Me.NumericUpDownExtCharactersIntelligence.Value.ToString)
+                                .Parameters.AddWithValue("@int", Me.NumericUpDownExtCharactersIntelligence.Value.ToString)
                                 .Parameters.AddWithValue("@id", _Campaign("character"))
                                 '[ Execute INSERT or UPDATE query. ]
                                 .ExecuteNonQuery()
@@ -1621,7 +2399,7 @@
                         Using _SQLiteConnect
                             With _QueryString
                                 .Clear()
-                                .Append("UPDATE characters SET race=@ace WHERE id=@id")
+                                .Append("UPDATE characters SET race=@race WHERE id=@id")
                             End With
                             _SQLiteCommand = New System.Data.SQLite.SQLiteCommand(_QueryString.ToString(), _SQLiteConnect)
                             With _SQLiteCommand
@@ -2060,6 +2838,15 @@
             If _SQLiteCommand IsNot Nothing Then _SQLiteCommand.Dispose()
             If _SQLiteConnect IsNot Nothing Then _SQLiteConnect.Dispose()
         End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Private Sub ShowDeathSavesMenu()
+
+        Me.ContextMenuStripCharactersDeathSaves.Show(Me.PictureBoxCharactersDeathSaves, Me.PictureBoxCharactersDeathSaves.Width / 2, Me.PictureBoxCharactersDeathSaves.Height / 2)
 
     End Sub
 

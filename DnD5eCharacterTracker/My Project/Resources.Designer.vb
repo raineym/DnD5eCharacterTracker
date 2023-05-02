@@ -70,6 +70,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAIAAABbzbuTAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABsSURBVDhPY/zw4QMDKQCkYc+ePVAeIeDi4sICZ0EYeADEXCYI5z8RAKJyCGgQQQVQUTCAqETX8OrVK4gIEADZUFEwgAhicdLLly+BIkASyocBiEqoBjQA0YMVUOxpPACikvYaSE6tJOYHBgYA8IyG5D2ajkUAAAAASUVORK5CYII=.
+        '''</summary>
+        Friend ReadOnly Property ArrowDown() As String
+            Get
+                Return ResourceManager.GetString("ArrowDown", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJdSURBVDjLpZP7S1NhGMf9W7YfogSJboSEUVCY8zJ31trcps6zTI9bLGJpjp1hmkGNxVz4Q6ildtXKXzJNbJRaRmrXoeWx8tJOTWptnrNryre5YCYuI3rh+8vL+/m8PA/PkwIg5X+y5mJWrxfOUBXm91QZM6UluUmthntHqplxUml2lciF6wrmdHriI0Wx3xw2hAediLwZRWRkCPzdDswaSvGqkGCfq8VEUsEyPF1O8Qu3O7A09RbRvjuIttsRbT6HHzebsDjcB4/JgFFlNv9MnkmsEszodIIY7Oaut2OJcSF68Qx8dgv8tmqEL1gQaaARtp5A+N4NzB0lMXxon/uxbI8gIYjB9HytGYuusfiPIQcN71kjgnW6VeFOkgh3XcHLvAwMSDPo [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property Delete() As String
@@ -84,15 +93,6 @@ Namespace My.Resources
         Friend ReadOnly Property Logo_256() As String
             Get
                 Return ResourceManager.GetString("Logo-256", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to iVBORw0KGgoAAAANSUhEUgAAAUIAAAFCCAYAAACErdScAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAACcHSURBVHhe7d15c1vXmSbwlyQAkgAB7jspapft1Nhy7HTGcbwlTnriaLoq6TiZ1FR1UtXJfKhJ0n/0dDpxMuWkJtOJnLS3kWXHi7x0YmuxJErivgEkSGIlqTnPuRcUREMSCPLiHuA8PxcMAQSxEffBe5Z7bsNSYuWmEBFZrNE9JyKyFoOQiKzHICQi6zEIich6DEIish6DkIisxyAkIusxCInIegxCIrIeg5CIrMcgJCLrMQiJyHoMQiKyHoOQiKzHICQi6zEIich6DEIish6DkIisxyAkIusxCInIegxCIrIeg5CIrMcgJCLrMQiJyHoMQiKyHoOQiKzHICQi6zEIich6DEIish6DkIisxyAkIusxCInIegxCIrIeg5CIrMcgJCLrMQiJyHoM [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property SuchEmpty() As String
-            Get
-                Return ResourceManager.GetString("SuchEmpty", resourceCulture)
             End Get
         End Property
     End Module
